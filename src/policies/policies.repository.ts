@@ -15,14 +15,25 @@ export class PoliciesRepository {
   }
 
   async findAllActive(): Promise<Policy[]> {
-    return this.repository.findBy({ active: true });
+    return this.repository.find({
+      where: { active: true },
+      relations: {
+        cars: true,
+      },
+    });
   }
 
   async findById(id: number): Promise<Policy | null> {
-    return this.repository.findOneBy({ id });
+    return this.repository.findOne({
+      where: { id },
+      relations: {
+        cars: true,
+      },
+    });
   }
 
   async deleteById(id: number): Promise<void> {
     await this.repository.delete(id);
   }
 }
+//===
